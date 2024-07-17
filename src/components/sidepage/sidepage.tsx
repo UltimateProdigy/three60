@@ -170,19 +170,6 @@ const SidePage = () => {
           pariatur incididunt nostrud occaecat mollit id occaecat. Voluptate
           adipisicing commodo.
         </Text>
-        <Box mt="95px">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="65"
-            height="100"
-            viewBox="0 0 65 100"
-            fill="none"
-          >
-            <circle cx="15" cy="50" r="50" fill="#859CD9" fill-opacity="0.47" />
-            <circle cx="15" cy="50" r="50" fill="#859CD9" fill-opacity="0.47" />
-            <circle cx="15" cy="50" r="50" fill="#859CD9" fill-opacity="0.47" />
-          </svg>
-        </Box>
       </Box>
     </Box>
   );
