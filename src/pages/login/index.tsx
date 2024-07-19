@@ -3,7 +3,7 @@ import { Box, Text } from "@chakra-ui/react";
 import SidePage from "@/components/sidepage/sidepage";
 import LoginForm from "@/components/forms/loginform";
 
-const Register = () => {
+const Login = () => {
   return (
     <Box display="flex">
       <SidePage />
@@ -12,4 +12,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

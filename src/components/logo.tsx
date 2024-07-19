@@ -15,7 +15,7 @@ const Logo = ({
 	props,
 }: LogoProps) => {
 	return (
-		<Box display="flex">
+		<Box display="flex" cursor="pointer">
 			<Image
 				height={20}
 				width={20}
