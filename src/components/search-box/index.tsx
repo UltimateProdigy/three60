@@ -9,11 +9,11 @@ interface SearchProps {
 export default function SearchBox({ className }: SearchProps) {
 	return (
 		<div className={className}>
-			<InputGroup>
-				<InputLeftElement pointerEvents="none">
+			<InputGroup w="500px">
+				<InputLeftElement pointerEvents="none" mt={1}>
 					<Search />
 				</InputLeftElement>
-				<Input type="text" placeholder="Search" />
+				<Input bg="#F6F7FB" h="50px" borderRadius="25px" type="text" placeholder="Search terms" />
 			</InputGroup>
 		</div>
 	);
