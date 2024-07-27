@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../logo";
 import { useRouter } from "next/router";
 import { three60Env } from "@/utils/functions";
@@ -17,7 +17,8 @@ import axios from "axios";
 export default function LoginForm() {
 	const toast = useToast();
 	const router = useRouter();
-	const [show, setShow] = React.useState(false);
+	const [loading, setLoading] = useState(false);
+	const [show, setShow] = useState(false);
 	const handleClick = () => setShow(!show);
 	const formik = useFormik({
 		initialValues: {
@@ -38,9 +39,12 @@ export default function LoginForm() {
 						},
 					}
 				);
+				setLoading(true);
 				if (response.status === 200) {
 					const token = response.data.token;
+                    const id = response.data.id
 					localStorage.setItem("authToken", token);
+                    localStorage.setItem("id", id);
 					toast({
 						position: "bottom",
 						status: "success",
@@ -114,6 +118,7 @@ export default function LoginForm() {
 						background="blue"
 						color="white"
 						type="submit"
+						isLoading={loading}
 					>
 						Sign In
 					</Button>
