@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse, AxiosRequestHeaders } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 
 type RequestMethod = "GET" | "POST";
