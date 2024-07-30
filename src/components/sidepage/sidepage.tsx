@@ -36,7 +36,7 @@ const SidePage = () => {
 				</svg>
 				<Text
 					color="white"
-					fontSize="47px"
+					fontSize="60px"
 					fontWeight="600"
 					pt="70px"
 					pl="70px"

@@ -4,7 +4,6 @@ import { Roboto } from "next/font/google";
 import { ChakraProvider } from "@chakra-ui/react";
 import Layout from "@/components/layout";
 import { useRouter } from "next/router";
-import { three60Env } from "@/utils/functions";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const roboto = Roboto({
@@ -14,9 +13,7 @@ const roboto = Roboto({
 
 export default function App({ Component, pageProps }: AppProps) {
 	const router = useRouter();
-	const domain = three60Env.DOMAIN;
-	const clientId = three60Env.CLIENT_ID;
-	const noNavbarRoutes = ["/login", "/"];
+	const noNavbarRoutes = ["/"];
 	const isNoNavbarRoute = noNavbarRoutes.includes(router.pathname);
 
 	return isNoNavbarRoute ? (
