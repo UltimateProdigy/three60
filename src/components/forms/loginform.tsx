@@ -42,9 +42,9 @@ export default function LoginForm() {
 				setLoading(true);
 				if (response.status === 200) {
 					const token = response.data.token;
-                    const id = response.data.id
+					const id = response.data.id;
 					localStorage.setItem("authToken", token);
-                    localStorage.setItem("id", id);
+					localStorage.setItem("id", id);
 					toast({
 						position: "bottom",
 						status: "success",
@@ -122,7 +122,15 @@ export default function LoginForm() {
 					>
 						Sign In
 					</Button>
-					<Button mt={4} mb={4} w="120%" h={14} color="blue">
+					<Button
+						mt={4}
+						mb={4}
+						w="120%"
+						h={14}
+						color="blue"
+						as="a"
+						href="/api/auth/login"
+					>
 						<img
 							style={{ paddingRight: "10px" }}
 							src="images/google.svg"
