@@ -2,7 +2,9 @@ import { useState } from "react";
 import Logo from "../logo";
 import SearchBox from "../search-box";
 import { useRouter } from "next/router";
-import "../../styles/Home.module.css"
+import "../../styles/Home.module.css";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { Avatar, AvatarBadge } from "@chakra-ui/react";
 
 interface ILink {
 	id: number;
@@ -12,6 +14,7 @@ interface ILink {
 }
 
 export default function Navbar() {
+	const { user, error, isLoading } = useUser();
 	const router = useRouter();
 	const [activeLink, setActiveLink] = useState<string>("/todos");
 	const links: ILink[] = [
@@ -28,7 +31,11 @@ export default function Navbar() {
 	return (
 		<div className="flex justify-between border px-14 bg-white">
 			<div className="flex gap-20">
-				<Logo fontSize="30px" props={{ mt: "17px" }} fontWeight="bold" />
+				<Logo
+					fontSize="30px"
+					props={{ mt: "17px" }}
+					fontWeight="bold"
+				/>
 				<div className="flex cursor-pointer">
 					{links.map((link) => (
 						<div
@@ -56,7 +63,12 @@ export default function Navbar() {
 					))}
 				</div>
 			</div>
-			<SearchBox className="mt-4" />
+			<div className="flex">
+				<SearchBox className="mt-4 mr-8" />
+				<Avatar mt={4} name={`${user?.name}`}>
+					<AvatarBadge boxSize='1.25em' bg='green.500' />
+				</Avatar>
+			</div>
 		</div>
 	);
 }
