@@ -1,10 +1,22 @@
 import { useState } from "react";
+import React from "react";
 import Logo from "../logo";
 import SearchBox from "../search-box";
 import { useRouter } from "next/router";
 import "../../styles/Home.module.css";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { Avatar, AvatarBadge } from "@chakra-ui/react";
+import {
+	Avatar,
+	AvatarBadge,
+	Button,
+	Popover,
+	PopoverArrow,
+	PopoverBody,
+	PopoverCloseButton,
+	PopoverContent,
+	PopoverHeader,
+	PopoverTrigger,
+} from "@chakra-ui/react";
 
 interface ILink {
 	id: number;
@@ -15,6 +27,9 @@ interface ILink {
 
 export default function Navbar() {
 	const { user, error, isLoading } = useUser();
+	const handleLogout = () => {
+		router.push(`/api/auth/logout?returnTo=${encodeURIComponent("/")}`);
+	};
 	const router = useRouter();
 	const [activeLink, setActiveLink] = useState<string>("/todos");
 	const links: ILink[] = [
@@ -65,9 +80,34 @@ export default function Navbar() {
 			</div>
 			<div className="flex">
 				<SearchBox className="mt-4 mr-8" />
-				<Avatar mt={4} name={`${user?.name}`}>
-					<AvatarBadge boxSize='1.25em' bg='green.500' />
-				</Avatar>
+				<Popover>
+					<PopoverTrigger>
+						<Avatar
+							src={`${user?.picture}`}
+							mt={4}
+							name={`${user?.name}`}
+							cursor="pointer"
+						>
+							<AvatarBadge boxSize="1.25em" bg="green.500" />
+						</Avatar>
+					</PopoverTrigger>
+					<PopoverContent>
+						<PopoverArrow />
+						<PopoverCloseButton />
+						<PopoverHeader fontWeight="bold">
+							{user?.name}
+						</PopoverHeader>
+						<PopoverBody>
+							<Button
+								w="full"
+								colorScheme="blue"
+								onClick={handleLogout}
+							>
+								Log Out
+							</Button>
+						</PopoverBody>
+					</PopoverContent>
+				</Popover>
 			</div>
 		</div>
 	);
