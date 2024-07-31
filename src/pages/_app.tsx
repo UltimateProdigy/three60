@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
 	const isNoNavbarRoute = noNavbarRoutes.includes(router.pathname);
 
 	return isNoNavbarRoute ? (
-		<main className={roboto.className}>
+		<main>
 			<UserProvider>
 				<ChakraProvider>
 					<Component {...pageProps} />
@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
 			</UserProvider>
 		</main>
 	) : (
-		<main className={roboto.className}>
+		<main>
 			<UserProvider>
 				<ChakraProvider>
 					<Layout>
