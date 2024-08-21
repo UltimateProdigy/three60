@@ -45,6 +45,9 @@ function useFetch<T>(url: string, options: FetchOptions) {
 			}
 		};
 		fetchData();
+        return () => {
+          
+        }
 	}, [url, options]);
 
 	return { data, loading, error };
