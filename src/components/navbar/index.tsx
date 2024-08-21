@@ -139,7 +139,7 @@ export default function Navbar() {
 			<Box
 				display={{ base: "flex", md: "none" }}
 				justifyContent="space-between"
-				p="4"
+				p="2"
 				bg="white"
 				className="border"
 			>

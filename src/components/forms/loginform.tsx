@@ -13,10 +13,6 @@ export default function LoginForm() {
 		router.push(`/api/auth/login?returnTo=${encodeURIComponent("/todos")}`);
 	};
 
-	if (error) {
-		toast({});
-	}
-
 	return (
 		<Box
 			display="flex"
