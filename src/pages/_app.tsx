@@ -5,6 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Layout from "@/components/layout";
 import { useRouter } from "next/router";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { TodoProvider } from "@/context/todoContext";
 
 const roboto = Roboto({
 	weight: "400",
@@ -27,11 +28,13 @@ export default function App({ Component, pageProps }: AppProps) {
 	) : (
 		<main>
 			<UserProvider>
-				<ChakraProvider>
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
-				</ChakraProvider>
+				<TodoProvider>
+					<ChakraProvider>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</ChakraProvider>
+				</TodoProvider>
 			</UserProvider>
 		</main>
 	);

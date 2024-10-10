@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import { useTodo } from "@/context/todoContext";
+import { databases } from "@/lib/appwrite";
+import { three60Env } from "@/utils/functions";
+import React, { useEffect, useState } from "react";
 
 interface Ilinks {
 	id: number;
@@ -10,6 +13,7 @@ interface Ilinks {
 
 export default function Sidebar() {
 	const [activeLink, setActiveLink] = useState<string>("All Todos");
+	const { todos } = useTodo();
 	const handleClick = (name: string) => {
 		setActiveLink(name);
 	};
@@ -18,42 +22,47 @@ export default function Sidebar() {
 		{
 			id: 1,
 			name: "All Todos",
-			number: "2",
+			number: todos.length,
 			color: "#4673E4",
 			bgColor: "#9cb4f0",
 		},
 		{
 			id: 2,
 			name: "Backlog",
-			number: "0",
+			number: todos?.filter((todo: any) => todo.status === "BACKLOG")
+				.length,
 			color: "#97A6AE",
 			bgColor: "#c3ccd0",
 		},
 		{
 			id: 3,
 			name: "In Progress",
-			number: "0",
+			number: todos?.filter((todo: any) => todo.status === "IN-PROGRESS")
+				.length,
 			color: "#4673E4",
 			bgColor: "#9cb4f0",
 		},
 		{
 			id: 4,
 			name: "Finished",
-			number: "0",
+			number: todos?.filter((todo: any) => todo.status === "COMPLETED")
+				.length,
 			color: "#28BA63",
 			bgColor: "#a7ecc3",
 		},
 		{
 			id: 5,
 			name: "Overdue",
-			number: "0",
+			number: todos?.filter((todo: any) => todo.status === "OVERDUE")
+				.length,
 			color: "#C9981A",
 			bgColor: "#f1d58f",
 		},
 		{
 			id: 6,
 			name: "Trash",
-			number: "0",
+			number: todos?.filter((todo: any) => todo.status === "TRASH")
+				.length,
 			color: "#F20101",
 			bgColor: "#fe7e7e",
 		},
