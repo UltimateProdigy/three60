@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Button,
 	Popover,
@@ -15,59 +15,28 @@ import {
 	Text,
 	Box,
 	Checkbox,
+	Tag,
 } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 import Sidebar from "@/components/sidebar";
 import { useRouter } from "next/router";
 import RightPage from "@/components/rightpage";
 import EmptyState from "@/components/emptystate";
-import useFetch from "@/hooks/useFetch";
 import { three60Env } from "@/utils/functions";
+import { databases } from "@/lib/appwrite";
 import { Dots, Edit, Pencil, Square } from "tabler-icons-react";
-
-interface Todo {
-	id: string;
-	title: string;
-	description: string;
-	completed: boolean;
-	todo: string;
-}
-
-interface DataResponse {
-	todos: Todo[];
-}
+import { formatDate } from "@/utils/functions";
+import { getStatusColor } from "@/components/statusColor";
+import { useTodo } from "@/context/todoContext";
 
 const Todos: React.FC = () => {
 	const router = useRouter();
-	const toast = useToast();
+	const { todos } = useTodo();
 	const popoverOptions = [
 		{ id: 1, name: "Mark as Complete", icon: <Square /> },
 		{ id: 2, name: "Edit", icon: <Edit /> },
 		{ id: 3, name: "Delete", icon: <Pencil /> },
 	];
-	const userId =
-		typeof window !== "undefined" ? localStorage.getItem("id") : null;
-	const { data, loading, error } = useFetch<DataResponse>(
-		`${three60Env.TODOS_BASE_URL}/user/${userId}`,
-		{
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		}
-	);
-
-	if (loading) {
-		return (
-			<div className="flex justify-center items-center mt-[40vh]">
-				<Spinner color="blue" />
-			</div>
-		);
-	}
-
-	if (error) {
-		return <p className="text-red-700 text-lg">Error: {error.message}</p>;
-	}
 
 	return (
 		<div className="h-full">
@@ -75,7 +44,7 @@ const Todos: React.FC = () => {
 			<div className="flex mt-[50px]">
 				<div className="px-[200px] mr-[450px] mt-3">
 					<p className="text-3xl font-extrabold">
-						{data?.todos?.length ?? 0} Todos
+						{todos?.length} Todos
 					</p>
 				</div>
 				<Button
@@ -92,16 +61,21 @@ const Todos: React.FC = () => {
 				</Button>
 			</div>
 			<RightPage />
-			{(!data || data.todos.length === 0) && (
-				<EmptyState title="No Todos available" />
-			)}
-			{data?.todos?.map((todo) => (
-				<div className="flex justify-between ml-[200px] mt-6 border w-[938px] p-4 bg-white">
-					<div>
+			{todos.map((todo: any) => (
+				<div className="flex justify-between ml-[200px] mt-3 border w-[938px] p-4 bg-white">
+					<div className="mr-[300px]" key={todo?.$id}>
 						<div className="font-bold cursor-pointer">
-							{todo.todo}
+							{todo?.name}
 						</div>
-						<div>Completed: {todo.completed}</div>
+						<div>{formatDate(todo?.$createdAt)}</div>
+					</div>
+					<div className="mt-3">
+						<Tag
+							borderRadius="full"
+							colorScheme={getStatusColor(todo?.status)}
+						>
+							{todo?.status}
+						</Tag>
 					</div>
 					<Popover>
 						<PopoverTrigger>
