@@ -33,15 +33,26 @@ export default function LoginForm() {
 				padding={6}
 				borderRadius="md"
 			>
-				<Text fontSize="50px" fontWeight="bold" textAlign="center" color='white'>
+				<Text
+					fontSize="50px"
+					fontWeight="bold"
+					textAlign="center"
+					color="white"
+				>
 					Welcome To <span style={{ color: "#4673E4" }}>Three60</span>
 				</Text>
 				<Button
 					width="100%"
-                    mt="100px"
+					mt="100px"
 					h={14}
-					colorScheme="blue"
+					background="linear-gradient(90deg, rgba(0,15,36,1) 0%, rgba(35,123,209,1) 100%, rgba(255,0,194,1) 100%)"
 					onClick={handleLogin}
+					borderRadius="full"
+					color="white"
+					_hover={{
+						background:
+							"linear-gradient(90deg, rgba(0,15,36,1) 0%, rgba(35,176,209,1) 100%, rgba(255,0,194,1) 100%)",
+					}}
 				>
 					Sign In
 				</Button>

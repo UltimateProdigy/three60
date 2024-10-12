@@ -1,42 +1,39 @@
-import React, { useEffect, useState } from "react";
-import {
-	Button,
-	Popover,
-	PopoverArrow,
-	PopoverBody,
-	PopoverCloseButton,
-	PopoverContent,
-	PopoverFooter,
-	PopoverHeader,
-	PopoverTrigger,
-	Portal,
-	Spinner,
-	useToast,
-	Text,
-	Box,
-	Checkbox,
-	Tag,
-} from "@chakra-ui/react";
+import React from "react";
+import { Button, Spinner, Tag, useDisclosure } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 import Sidebar from "@/components/sidebar";
 import { useRouter } from "next/router";
 import RightPage from "@/components/rightpage";
-import EmptyState from "@/components/emptystate";
-import { three60Env } from "@/utils/functions";
-import { databases } from "@/lib/appwrite";
-import { Dots, Edit, Pencil, Square } from "tabler-icons-react";
 import { formatDate } from "@/utils/functions";
 import { getStatusColor } from "@/components/statusColor";
 import { useTodo } from "@/context/todoContext";
+import EmptyState from "@/components/emptystate";
+import {
+	CreateTodoModal,
+	DeleteTodoModal,
+	EditTodoModal,
+} from "@/components/todomodal";
+import { TodoPopover } from "@/components/todopopover";
 
 const Todos: React.FC = () => {
 	const router = useRouter();
-	const { todos } = useTodo();
-	const popoverOptions = [
-		{ id: 1, name: "Mark as Complete", icon: <Square /> },
-		{ id: 2, name: "Edit", icon: <Edit /> },
-		{ id: 3, name: "Delete", icon: <Pencil /> },
-	];
+	const { todos, loading } = useTodo();
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
+	const [selectedTodo, setSelectedTodo] = React.useState<any>(null);
+
+	if (!todos) {
+		return <EmptyState title="No Todos available" />;
+	}
+
+	if (loading) {
+		return (
+			<div className="flex justify-center mt-[40vh]">
+				<Spinner color="blue" />
+			</div>
+		);
+	}
 
 	return (
 		<div className="h-full">
@@ -56,6 +53,7 @@ const Todos: React.FC = () => {
 					_hover={{
 						bgColor: "#219a52",
 					}}
+					onClick={onOpen}
 				>
 					Create Task
 				</Button>
@@ -77,38 +75,21 @@ const Todos: React.FC = () => {
 							{todo?.status}
 						</Tag>
 					</div>
-					<Popover>
-						<PopoverTrigger>
-							<div className="mt-3 cursor-pointer">
-								<Dots />
-							</div>
-						</PopoverTrigger>
-						<Portal>
-							<PopoverContent>
-								<PopoverArrow />
-								<PopoverBody>
-									{popoverOptions.map((popover) => (
-										<Box
-											_hover={{
-												backgroundColor: "#e3e3e3",
-											}}
-											cursor="pointer"
-											display="flex"
-											gap={6}
-											h="full"
-											w="full"
-											p={4}
-										>
-											{popover.icon}
-											<Text>{popover.name}</Text>
-										</Box>
-									))}
-								</PopoverBody>
-							</PopoverContent>
-						</Portal>
-					</Popover>
+					<TodoPopover />
 				</div>
 			))}
+			<CreateTodoModal isOpen={isOpen} onClose={onClose} />
+			<EditTodoModal
+				isOpen={isEditModalOpen}
+				onClose={() => setIsEditModalOpen(false)}
+				todo={selectedTodo}
+				onSubmit={() => null}
+			/>
+			<DeleteTodoModal
+				isOpen={isDeleteModalOpen}
+				onClose={() => setIsDeleteModalOpen(false)}
+				onDelete={() => null}
+			/>
 		</div>
 	);
 };

@@ -9,9 +9,9 @@ import { databases } from "@/lib/appwrite";
 import { three60Env } from "@/utils/functions";
 import { useToast } from "@chakra-ui/react";
 
-
 interface TodoContextType {
 	todos: any;
+	loading: boolean;
 	setTodos: React.Dispatch<React.SetStateAction<any[]>>;
 	fetchTodos: () => Promise<void>;
 	addTodo: (todo: Omit<any, "id">) => Promise<void>;
@@ -25,15 +25,18 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 	children,
 }) => {
 	const [todos, setTodos] = useState<any[] | any>([]);
+	const [loading, setLoading] = useState<boolean>(false);
 	const toast = useToast();
 
 	const fetchTodos = async () => {
+		setLoading(true);
 		try {
 			const response = await databases.listDocuments(
 				three60Env.DATABASE_ID,
 				three60Env.TASKS_COLLECTION_ID
 			);
 			setTodos(response.documents);
+			setLoading(false);
 		} catch (error) {
 			console.error("Error fetching todos:", error);
 			toast({
@@ -114,6 +117,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 		<TodoContext.Provider
 			value={{
 				todos,
+				loading,
 				setTodos,
 				fetchTodos,
 				addTodo,
