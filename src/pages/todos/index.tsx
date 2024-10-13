@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Spinner, Tag, useDisclosure } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 import Sidebar from "@/components/sidebar";
-import { useRouter } from "next/router";
 import RightPage from "@/components/rightpage";
 import { formatDate } from "@/utils/functions";
 import { getStatusColor } from "@/components/statusColor";
@@ -14,14 +13,20 @@ import {
 	EditTodoModal,
 } from "@/components/todomodal";
 import { TodoPopover } from "@/components/todopopover";
+import { Pagination } from "@/components/pagination";
 
 const Todos: React.FC = () => {
-	const router = useRouter();
 	const { todos, loading } = useTodo();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
-	const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
-	const [selectedTodo, setSelectedTodo] = React.useState<any>(null);
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+	const [selectedTodo, setSelectedTodo] = useState<any>(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const todosPerPage = 5;
+	const indexOfLastTodo = currentPage * todosPerPage;
+	const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+	const currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
+	const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
 
 	if (!todos) {
 		return <EmptyState title="No Todos available" />;
@@ -59,9 +64,12 @@ const Todos: React.FC = () => {
 				</Button>
 			</div>
 			<RightPage />
-			{todos.map((todo: any) => (
-				<div className="flex justify-between ml-[200px] mt-3 border w-[938px] p-4 bg-white">
-					<div className="mr-[300px]" key={todo?.$id}>
+			{currentTodos.map((todo: any) => (
+				<div
+					key={todo?.$id}
+					className="flex justify-between ml-[200px] mt-3 border w-[938px] p-4 bg-white"
+				>
+					<div className="mr-[300px]">
 						<div className="font-bold cursor-pointer">
 							{todo?.name}
 						</div>
@@ -78,6 +86,14 @@ const Todos: React.FC = () => {
 					<TodoPopover />
 				</div>
 			))}
+			<div className="ml-[200px] mt-4 w-[938px]">
+				<Pagination
+					todosPerPage={todosPerPage}
+					totalTodos={todos.length}
+					currentPage={currentPage}
+					onPageChange={handlePageChange}
+				/>
+			</div>
 			<CreateTodoModal isOpen={isOpen} onClose={onClose} />
 			<EditTodoModal
 				isOpen={isEditModalOpen}

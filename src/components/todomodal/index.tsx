@@ -10,9 +10,11 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
+	Select,
 	Textarea,
 	useDisclosure,
 } from "@chakra-ui/react";
+import { useTodo } from "@/context/todoContext";
 
 interface ModalProps {
 	isOpen: boolean;
@@ -28,6 +30,7 @@ interface TodoModalProps extends ModalProps {
 }
 
 export const CreateTodoModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+	const { todos } = useTodo();
 	const [name, setName] = React.useState("");
 	const [description, setDescription] = React.useState("");
 
@@ -62,6 +65,16 @@ export const CreateTodoModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 					/>
+					<Select
+						mt={6}
+						placeholder="Select Status"
+						background="whitesmoke"
+						border="none"
+					>
+						{todos?.map((todo: any) => (
+							<option value="option1">{todo.status}</option>
+						))}
+					</Select>
 				</ModalBody>
 				<hr />
 				<ModalFooter>
@@ -97,6 +110,7 @@ export const EditTodoModal: React.FC<TodoModalProps> = ({
 	const [description, setDescription] = React.useState(
 		todo?.description || ""
 	);
+	const { todos } = useTodo();
 
 	const handleSubmit = () => {
 		onSubmit({ name, description });
@@ -130,6 +144,16 @@ export const EditTodoModal: React.FC<TodoModalProps> = ({
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 					/>
+					<Select
+						mt={6}
+						placeholder="Select Status"
+						background="whitesmoke"
+						border="none"
+					>
+						{todos?.map((todo: any) => (
+							<option value="option1">{todo.status}</option>
+						))}
+					</Select>
 				</ModalBody>
 				<hr />
 				<ModalFooter>

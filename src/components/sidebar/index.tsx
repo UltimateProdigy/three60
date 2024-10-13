@@ -14,9 +14,6 @@ interface Ilinks {
 export default function Sidebar() {
 	const [activeLink, setActiveLink] = useState<string>("All Todos");
 	const { todos } = useTodo();
-	const handleClick = (name: string) => {
-		setActiveLink(name);
-	};
 
 	const links: Ilinks[] = [
 		{
@@ -29,7 +26,7 @@ export default function Sidebar() {
 		{
 			id: 2,
 			name: "Backlog",
-			number: todos?.filter((todo: any) => todo.status === "BACKLOG")
+			number: todos?.filter((todo: any) => todo?.status === "BACKLOG")
 				.length,
 			color: "#97A6AE",
 			bgColor: "#c3ccd0",
@@ -37,7 +34,7 @@ export default function Sidebar() {
 		{
 			id: 3,
 			name: "In Progress",
-			number: todos?.filter((todo: any) => todo.status === "IN-PROGRESS")
+			number: todos?.filter((todo: any) => todo?.status === "IN-PROGRESS")
 				.length,
 			color: "#4673E4",
 			bgColor: "#9cb4f0",
@@ -45,7 +42,7 @@ export default function Sidebar() {
 		{
 			id: 4,
 			name: "Finished",
-			number: todos?.filter((todo: any) => todo.status === "COMPLETED")
+			number: todos?.filter((todo: any) => todo?.status === "COMPLETED")
 				.length,
 			color: "#28BA63",
 			bgColor: "#a7ecc3",
@@ -53,7 +50,7 @@ export default function Sidebar() {
 		{
 			id: 5,
 			name: "Overdue",
-			number: todos?.filter((todo: any) => todo.status === "OVERDUE")
+			number: todos?.filter((todo: any) => todo?.status === "OVERDUE")
 				.length,
 			color: "#C9981A",
 			bgColor: "#f1d58f",
@@ -61,7 +58,7 @@ export default function Sidebar() {
 		{
 			id: 6,
 			name: "Trash",
-			number: todos?.filter((todo: any) => todo.status === "TRASH")
+			number: todos?.filter((todo: any) => todo?.status === "TRASH")
 				.length,
 			color: "#F20101",
 			bgColor: "#fe7e7e",
@@ -72,7 +69,7 @@ export default function Sidebar() {
 		<div className="border w-[70px] h-[470px] rounded-[40px] absolute left-[60px] top-[200px] flex flex-col items-center justify-center bg-white">
 			{links.map((link) => (
 				<div
-					onClick={() => handleClick(link.name)}
+					onClick={() => setActiveLink(link.name)}
 					key={link.id}
 					className={`flex flex-col items-center cursor-pointer w-[70px] py-2 ${
 						activeLink === link.name
