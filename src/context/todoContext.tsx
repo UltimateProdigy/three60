@@ -48,6 +48,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 	};
 
 	const addTodo = async (todo: Omit<any, "id">) => {
+		setLoading(true);
 		try {
 			const response = await databases.createDocument(
 				three60Env.DATABASE_ID,
@@ -56,6 +57,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 				todo
 			);
 			setTodos((prevTodos: any) => [...prevTodos, response]);
+			setLoading(false);
 		} catch (error) {
 			console.error("Error adding todo:", error);
 			toast({
@@ -67,6 +69,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 	};
 
 	const updateTodo = async (id: string, updates: Partial<any>) => {
+		setLoading(true);
 		try {
 			const response = await databases.updateDocument(
 				three60Env.DATABASE_ID,
@@ -79,6 +82,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 					todo.$id === id ? { ...todo, ...response } : todo
 				)
 			);
+			setLoading(false);
 		} catch (error) {
 			console.error("Error updating todo:", error);
 			toast({
@@ -90,6 +94,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 	};
 
 	const deleteTodo = async (id: string) => {
+		setLoading(true);
 		try {
 			await databases.deleteDocument(
 				three60Env.DATABASE_ID,
@@ -99,6 +104,7 @@ export const TodoProvider: React.FC<{ children: ReactNode }> = ({
 			setTodos((prevTodos: any) =>
 				prevTodos.filter((todo: any) => todo.$id !== id)
 			);
+			setLoading(false);
 		} catch (error) {
 			console.error("Error deleting todo:", error);
 			toast({
