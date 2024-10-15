@@ -22,7 +22,7 @@ const Todos: React.FC = () => {
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [selectedTodo, setSelectedTodo] = useState<any>(null);
 	const [currentPage, setCurrentPage] = useState(1);
-	const todosPerPage = 5;
+	const todosPerPage = 4;
 	const indexOfLastTodo = currentPage * todosPerPage;
 	const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
 	const currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
@@ -86,13 +86,15 @@ const Todos: React.FC = () => {
 					<TodoPopover />
 				</div>
 			))}
-			<div className="ml-[200px] mt-4 w-[938px]">
-				<Pagination
-					todosPerPage={todosPerPage}
-					totalTodos={todos.length}
-					currentPage={currentPage}
-					onPageChange={handlePageChange}
-				/>
+			<div className="fixed bottom-[200px] left-[200px] right-0 flex justify-center">
+				<div className="w-[938px]">
+					<Pagination
+						todosPerPage={todosPerPage}
+						totalTodos={todos.length}
+						currentPage={currentPage}
+						onPageChange={handlePageChange}
+					/>
+				</div>
 			</div>
 			<CreateTodoModal isOpen={isOpen} onClose={onClose} />
 			<EditTodoModal
