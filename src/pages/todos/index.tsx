@@ -86,7 +86,7 @@ const Todos: React.FC = () => {
 					<TodoPopover />
 				</div>
 			))}
-			<div className="fixed bottom-[200px] left-[200px] right-0 flex justify-center">
+			<div className="fixed bottom-[200px] left-[200px] right-10 flex justify-center">
 				<div className="w-[938px]">
 					<Pagination
 						todosPerPage={todosPerPage}
