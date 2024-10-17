@@ -7,15 +7,49 @@ import {
 	PopoverBody,
 	Text,
 	Box,
+	useDisclosure,
+	useToast,
 } from "@chakra-ui/react";
 import { Dots, Edit, Pencil, Square } from "tabler-icons-react";
+import { DeleteTodoModal, EditTodoModal } from "../todomodal";
 
 export const TodoPopover = () => {
+	const toast = useToast();
+	const {
+		isOpen: isEditOpen,
+		onOpen: onEditOpen,
+		onClose: onEditClose,
+	} = useDisclosure();
+	const {
+		isOpen: isDeleteOpen,
+		onOpen: onDeleteOpen,
+		onClose: onDeleteClose,
+	} = useDisclosure();
+
 	const popoverOptions = [
-		{ id: 1, name: "Mark as Complete", icon: <Square /> },
-		{ id: 2, name: "Edit", icon: <Edit /> },
-		{ id: 3, name: "Delete", icon: <Pencil /> },
+		{
+			id: 1,
+			name: "Mark as Complete",
+			icon: <Square />,
+			action: () =>
+				toast({
+					title: "Success",
+					description: "Todo Marked",
+					status: "info",
+				}),
+		},
+		{ id: 2, name: "Edit", icon: <Edit />, action: onEditOpen },
+		{ id: 3, name: "Delete", icon: <Pencil />, action: onDeleteOpen },
 	];
+
+	const handleEditTodo = (data: { name: string; description: string }) => {
+		console.log("Edited todo:", data);
+	};
+
+	const handleDeleteTodo = () => {
+		console.log("Deleted todo");
+	};
+
 	return (
 		<div>
 			<Popover>
@@ -30,6 +64,7 @@ export const TodoPopover = () => {
 						<PopoverBody>
 							{popoverOptions.map((popover) => (
 								<Box
+									key={popover.id}
 									_hover={{
 										backgroundColor: "#e3e3e3",
 									}}
@@ -39,6 +74,7 @@ export const TodoPopover = () => {
 									h="full"
 									w="full"
 									p={4}
+									onClick={popover.action}
 								>
 									{popover.icon}
 									<Text>{popover.name}</Text>
@@ -48,6 +84,19 @@ export const TodoPopover = () => {
 					</PopoverContent>
 				</Portal>
 			</Popover>
+
+			<EditTodoModal
+				isOpen={isEditOpen}
+				onClose={onEditClose}
+				todo={{ name: "Title", description: "Description" }}
+				onSubmit={handleEditTodo}
+			/>
+
+			<DeleteTodoModal
+				isOpen={isDeleteOpen}
+				onClose={onDeleteClose}
+				onDelete={handleDeleteTodo}
+			/>
 		</div>
 	);
 };

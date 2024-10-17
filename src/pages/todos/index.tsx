@@ -2,24 +2,18 @@ import React, { useState } from "react";
 import { Button, Spinner, Tag, useDisclosure } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 import Sidebar from "@/components/sidebar";
-import RightPage from "@/components/rightpage";
+import { RightPage } from "@/components/rightpage";
 import { formatDate } from "@/utils/functions";
 import { getStatusColor } from "@/components/statusColor";
 import { useTodo } from "@/context/todoContext";
 import EmptyState from "@/components/emptystate";
-import {
-	CreateTodoModal,
-	DeleteTodoModal,
-	EditTodoModal,
-} from "@/components/todomodal";
+import { CreateTodoModal } from "@/components/todomodal";
 import { TodoPopover } from "@/components/todopopover";
 import { Pagination } from "@/components/pagination";
 
 const Todos: React.FC = () => {
 	const { todos, loading } = useTodo();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [selectedTodo, setSelectedTodo] = useState<any>(null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const todosPerPage = 4;
@@ -63,16 +57,17 @@ const Todos: React.FC = () => {
 					Create Task
 				</Button>
 			</div>
-			<RightPage />
+			<RightPage selectedTodo={selectedTodo} />
 			{currentTodos.map((todo: any) => (
 				<div
 					key={todo?.$id}
 					className="flex justify-between ml-[200px] mt-3 border w-[938px] p-4 bg-white"
 				>
-					<div className="mr-[300px]">
-						<div className="font-bold cursor-pointer">
-							{todo?.name}
-						</div>
+					<div
+						className="mr-[300px] cursor-pointer"
+						onClick={() => setSelectedTodo(todo)}
+					>
+						<div className="font-bold">{todo?.name}</div>
 						<div>{formatDate(todo?.$createdAt)}</div>
 					</div>
 					<div className="mt-3">
@@ -83,10 +78,11 @@ const Todos: React.FC = () => {
 							{todo?.status}
 						</Tag>
 					</div>
+
 					<TodoPopover />
 				</div>
 			))}
-			<div className="fixed bottom-[200px] left-[200px] right-10 flex justify-center">
+			<div className="fixed bottom-[200px] left-[200px] right-[190px] flex justify-center">
 				<div className="w-[938px]">
 					<Pagination
 						todosPerPage={todosPerPage}
@@ -97,17 +93,6 @@ const Todos: React.FC = () => {
 				</div>
 			</div>
 			<CreateTodoModal isOpen={isOpen} onClose={onClose} />
-			<EditTodoModal
-				isOpen={isEditModalOpen}
-				onClose={() => setIsEditModalOpen(false)}
-				todo={selectedTodo}
-				onSubmit={() => null}
-			/>
-			<DeleteTodoModal
-				isOpen={isDeleteModalOpen}
-				onClose={() => setIsDeleteModalOpen(false)}
-				onDelete={() => null}
-			/>
 		</div>
 	);
 };
