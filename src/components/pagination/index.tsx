@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@chakra-ui/react";
 
 interface PaginationProps {
 	todosPerPage: number;
@@ -38,13 +39,17 @@ export const Pagination: React.FC<PaginationProps> = ({
 		<div className="flex justify-center mt-10">
 			<div className="flex items-center">
 				<div>
-					<button
+					<Button
 						className="px-3 py-2 mr-4 bg-blue-500 text-white hover:bg-gray-100 hover:text-blue-500 disabled:opacity-50 border-2 hover:border-blue-500 rounded-full"
 						onClick={() => onPageChange(currentPage - 1)}
-						disabled={currentPage === 1}
+						isDisabled={currentPage === 1}
+						leftIcon={<ChevronLeft size={20} />}
+						bg="#2468EB"
+						color="white"
+						border="none"
 					>
-						<ChevronLeft size={20} />
-					</button>
+						Previous
+					</Button>
 				</div>
 				{visiblePageNumbers.map((number) => (
 					<div key={number}>
@@ -61,13 +66,17 @@ export const Pagination: React.FC<PaginationProps> = ({
 					</div>
 				))}
 				<div>
-					<button
+					<Button
 						className="px-3 py-2 ml-4 bg-blue-500 text-white hover:bg-gray-100 hover:text-blue-500 disabled:opacity-50 border-2 hover:border-blue-500 rounded-full"
 						onClick={() => onPageChange(currentPage + 1)}
-						disabled={currentPage === pageNumbers.length}
+						isDisabled={currentPage === pageNumbers.length}
+						rightIcon={<ChevronRight size={20} />}
+						bg="#2468EB"
+						color="white"
+						border="none"
 					>
-						<ChevronRight size={20} />
-					</button>
+						Next
+					</Button>
 				</div>
 			</div>
 		</div>

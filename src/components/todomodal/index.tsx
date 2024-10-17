@@ -25,6 +25,7 @@ interface TodoModalProps extends ModalProps {
 	todo?: {
 		name: string;
 		description: string;
+		status?: string;
 	};
 	onSubmit: (data: { name: string; description: string }) => void;
 }
@@ -180,8 +181,8 @@ export const EditTodoModal: React.FC<TodoModalProps> = ({
 };
 
 export const DeleteTodoModal: React.FC<
-	ModalProps & { onDelete: () => void }
-> = ({ isOpen, onClose, onDelete }) => {
+	ModalProps & { onDelete: () => void; todo?: { status: string } }
+> = ({ isOpen, onClose, onDelete, todo }) => {
 	const handleDelete = () => {
 		onDelete();
 		onClose();
@@ -211,6 +212,7 @@ export const DeleteTodoModal: React.FC<
 						borderRadius="full"
 						colorScheme="red"
 						onClick={handleDelete}
+						isDisabled={todo?.status === "TRASH"}
 					>
 						Delete
 					</Button>
