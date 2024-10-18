@@ -10,6 +10,7 @@ import EmptyState from "@/components/emptystate";
 import { CreateTodoModal } from "@/components/todomodal";
 import { TodoPopover } from "@/components/todopopover";
 import { Pagination } from "@/components/pagination";
+import { truncateText } from "@/components/truncateText";
 
 const Todos: React.FC = () => {
 	const { todos, loading } = useTodo();
@@ -67,7 +68,9 @@ const Todos: React.FC = () => {
 						className="mr-[300px] cursor-pointer"
 						onClick={() => setSelectedTodo(todo)}
 					>
-						<div className="font-bold">{todo?.name}</div>
+						<div className="font-bold">
+							{truncateText(todo?.name || "", 3)}
+						</div>
 						<div>{formatDate(todo?.$createdAt)}</div>
 					</div>
 					<div className="mt-3">

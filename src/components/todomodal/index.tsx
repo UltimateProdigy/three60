@@ -12,7 +12,7 @@ import {
 	ModalOverlay,
 	Select,
 	Textarea,
-	useDisclosure,
+	useToast,
 } from "@chakra-ui/react";
 import { useTodo } from "@/context/todoContext";
 
@@ -31,12 +31,43 @@ interface TodoModalProps extends ModalProps {
 }
 
 export const CreateTodoModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-	const { todos } = useTodo();
+	const { addTodo } = useTodo();
+	const toast = useToast();
 	const [name, setName] = React.useState("");
 	const [description, setDescription] = React.useState("");
+	const [loading, setLoading] = React.useState(false);
 
-	const handleSubmit = () => {
-		onClose();
+	const handleSubmit = async () => {
+		setLoading(true);
+		if (!name || !description) {
+			toast({
+				title: "Error",
+				description: "Please fill in all fields.",
+				status: "error",
+			});
+			return;
+		}
+		const newTodo = {
+			name,
+			description,
+			status: "IN-PROGRESS",
+		};
+		try {
+			await addTodo(newTodo);
+			toast({
+				title: "Success",
+				description: "Todo created successfully.",
+				status: "success",
+			});
+			setLoading(false);
+			onClose();
+		} catch (error) {
+			toast({
+				title: "Error",
+				description: "Failed to create todo.",
+				status: "error",
+			});
+		}
 	};
 
 	return (
@@ -66,16 +97,6 @@ export const CreateTodoModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
 					/>
-					<Select
-						mt={6}
-						placeholder="Select Status"
-						background="whitesmoke"
-						border="none"
-					>
-						{todos?.map((todo: any) => (
-							<option value="option1">{todo.status}</option>
-						))}
-					</Select>
 				</ModalBody>
 				<hr />
 				<ModalFooter>
@@ -92,6 +113,7 @@ export const CreateTodoModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 						borderRadius="full"
 						colorScheme="blue"
 						onClick={handleSubmit}
+						isLoading={loading}
 					>
 						Create
 					</Button>

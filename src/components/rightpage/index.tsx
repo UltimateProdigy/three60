@@ -24,7 +24,7 @@ export const RightPage: React.FC<RightPageProps> = ({ selectedTodo }) => {
 	}
 
 	return (
-		<div className="absolute h-[90vh] w-[700px] top-[80px] bg-white right-0 p-8 pt-[100px]">
+		<div className="absolute h-[90vh] w-[700px] top-[80px] bg-white right-0 p-8 pt-[100px] px-[50px]">
 			<div className="flex justify-between">
 				<div className="flex gap-3">
 					<Tag
