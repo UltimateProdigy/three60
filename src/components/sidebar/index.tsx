@@ -66,7 +66,7 @@ export default function Sidebar() {
 	];
 
 	return (
-		<div className="border w-[70px] h-[470px] rounded-[40px] absolute left-[60px] top-[200px] flex flex-col items-center justify-center bg-white">
+		<div className="border w-[70px] h-[470px] rounded-[40px] absolute left-[60px] top-[140px] flex flex-col items-center justify-center bg-white">
 			{links.map((link) => (
 				<div
 					onClick={() => setActiveLink(link.name)}
