@@ -39,7 +39,7 @@ const Todos: React.FC = () => {
 		<div className="h-full">
 			<Sidebar />
 			<div className="flex mt-[50px]">
-				<div className="px-[200px] mr-[450px] mt-3">
+				<div className="px-[200px] mr-[220px] mt-3">
 					<p className="text-3xl font-extrabold">
 						{todos?.length} Todos
 					</p>
@@ -62,10 +62,10 @@ const Todos: React.FC = () => {
 			{currentTodos.map((todo: any) => (
 				<div
 					key={todo?.$id}
-					className="flex justify-between ml-[200px] mt-3 border w-[938px] p-4 bg-white"
+					className="flex justify-between ml-[200px] mt-3 border w-[708px] p-4 bg-white"
 				>
 					<div
-						className="mr-[300px] cursor-pointer"
+						className="mr-[100px] cursor-pointer"
 						onClick={() => setSelectedTodo(todo)}
 					>
 						<div className="font-bold">
@@ -85,7 +85,7 @@ const Todos: React.FC = () => {
 					<TodoPopover />
 				</div>
 			))}
-			<div className="fixed bottom-[200px] left-[200px] right-[190px] flex justify-center">
+			<div className="fixed bottom-[60px] left-[75px] right-[190px] flex justify-center">
 				<div className="w-[938px]">
 					<Pagination
 						todosPerPage={todosPerPage}

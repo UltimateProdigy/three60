@@ -4,6 +4,8 @@ import { Box, Tag, Text } from "@chakra-ui/react";
 import { getStatusColor } from "../statusColor";
 import { Clock } from "../icons";
 import { useTodo } from "@/context/todoContext";
+import { Edit } from "../icons/Edit";
+import { Delete } from "../icons/Delete";
 
 interface RightPageProps {
 	selectedTodo: any;
@@ -14,7 +16,7 @@ export const RightPage: React.FC<RightPageProps> = ({ selectedTodo }) => {
 
 	if (!selectedTodo) {
 		return (
-			<div className="absolute h-[90vh] w-[700px] top-[80px] bg-white right-0">
+			<div className="absolute h-[90vh] w-[600px] top-[80px] bg-white right-0">
 				<EmptyState
 					title="No todo/note is currently opened until, you create a task"
 					className="mt-[35vh]"
@@ -24,7 +26,7 @@ export const RightPage: React.FC<RightPageProps> = ({ selectedTodo }) => {
 	}
 
 	return (
-		<div className="absolute h-[90vh] w-[700px] top-[80px] bg-white right-0 p-8 pt-[100px] px-[50px]">
+		<div className="absolute h-[90vh] w-[600px] top-[80px] bg-white right-0 p-8 pt-[100px] px-[50px]">
 			<div className="flex justify-between">
 				<div className="flex gap-3">
 					<Tag
@@ -54,11 +56,14 @@ export const RightPage: React.FC<RightPageProps> = ({ selectedTodo }) => {
 					</span>
 				</p>
 			</div>
-
 			<h1 className="text-4xl font-bold mb-4 text-gray-600">
 				{selectedTodo?.name}
 			</h1>
 			<p className="text-md text-gray-600">{selectedTodo?.description}</p>
+			<div className="flex gap-4 mt-[100px] justify-end">
+                <Edit />
+				<Delete />
+			</div>
 		</div>
 	);
 };
