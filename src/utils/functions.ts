@@ -14,7 +14,7 @@ export function formatDate(dateString: string) {
 	let hours = date.getHours();
 	const ampm = hours >= 12 ? "PM" : "AM";
 	hours = hours % 12;
-	hours = hours ? hours : 12; 
+	hours = hours ? hours : 12;
 	const hoursStr = hours.toString().padStart(2, "0");
 
 	const minutes = date.getMinutes().toString().padStart(2, "0");

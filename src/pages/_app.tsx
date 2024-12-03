@@ -4,7 +4,7 @@ import { Roboto } from "next/font/google";
 import { ChakraProvider } from "@chakra-ui/react";
 import Layout from "@/components/layout";
 import { useRouter } from "next/router";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { UserProvider } from "@/context/userContext";
 import { TodoProvider } from "@/context/todoContext";
 
 const roboto = Roboto({
@@ -14,7 +14,7 @@ const roboto = Roboto({
 
 export default function App({ Component, pageProps }: AppProps) {
 	const router = useRouter();
-	const noNavbarRoutes = ["/"];
+	const noNavbarRoutes = ["/login", "/", "/register"];
 	const isNoNavbarRoute = noNavbarRoutes.includes(router.pathname);
 
 	return isNoNavbarRoute ? (
