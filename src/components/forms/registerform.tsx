@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { authService } from "@/lib/appwrite";
 import Logo from "../logo";
 
-export default function LoginForm() {
+export default function RegisterForm() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -21,25 +21,35 @@ export default function LoginForm() {
 	const toast = useToast();
 	const router = useRouter();
 
-	const handleLogin = async (e: React.FormEvent) => {
+	const handleRegister = async (e: React.FormEvent) => {
 		e.preventDefault();
-		setIsLoading(true);
 
-		try {
-			await authService.login(email, password);
+		if (password.length < 8) {
 			toast({
-				title: "Login Successful",
-				description: "You've been logged in successfully",
+				title: "Weak Password",
+				description: "Password must be at least 8 characters long",
+				status: "error",
+				duration: 3000,
+				isClosable: true,
+			});
+			return;
+		}
+		setIsLoading(true);
+		try {
+			await authService.createAccount(email, password);
+			toast({
+				title: "Registration Successful",
+				description: "Your account has been created",
 				status: "success",
 				duration: 3000,
 				isClosable: true,
 			});
-
-			router.push("/todos");
+			router.push("/login");
 		} catch (error: any) {
 			toast({
-				title: "Login Failed",
-				description: error.message || "An error occurred during login",
+				title: "Registration Failed",
+				description:
+					error.message || "An error occurred during registration",
 				status: "error",
 				duration: 3000,
 				isClosable: true,
@@ -59,7 +69,6 @@ export default function LoginForm() {
 			bg="gray.100"
 		>
 			<VStack
-				spacing={4}
 				align="center"
 				maxWidth="400px"
 				width="100%"
@@ -67,14 +76,16 @@ export default function LoginForm() {
 				borderRadius="md"
 				bg="white"
 				boxShadow="md"
+				h="auto"
+				py={8}
 			>
 				<Logo className="mt-6 font-bold" />
-				<Text fontSize="2xl" fontWeight="bold" mb={4}>
-					Login to Your Account
+				<Text fontSize="xl" fontWeight="bold">
+					Create Your Account
 				</Text>
 
-				<form onSubmit={handleLogin} style={{ width: "100%" }}>
-					<VStack spacing={4} width="100%">
+				<form onSubmit={handleRegister} style={{ width: "100%" }}>
+					<VStack spacing={2} width="100%">
 						<FormControl isRequired>
 							<FormLabel>Email</FormLabel>
 							<Input
@@ -89,7 +100,7 @@ export default function LoginForm() {
 							<FormLabel>Password</FormLabel>
 							<Input
 								type="password"
-								placeholder="Enter your password"
+								placeholder="Create a strong password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 							/>
@@ -100,27 +111,21 @@ export default function LoginForm() {
 							type="submit"
 							width="full"
 							isLoading={isLoading}
+                            mt={4}
 						>
-							Login
+							Register
 						</Button>
 
 						<Button
 							variant="outline"
 							colorScheme="gray"
 							width="full"
-							onClick={() => router.push("/register")}
+							onClick={() => router.push("/login")}
 						>
-							Create New Account
+							Already have an account? Login
 						</Button>
 					</VStack>
 				</form>
-
-				<Text fontSize="sm" color="gray.500" textAlign="center" mt={4}>
-					Forgot Password?{" "}
-					<Text as="span" color="blue.500" cursor="pointer">
-						Reset Here
-					</Text>
-				</Text>
 			</VStack>
 		</Box>
 	);

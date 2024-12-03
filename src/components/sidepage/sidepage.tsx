@@ -38,7 +38,7 @@ const SidePage = () => {
 					color="white"
 					fontSize="60px"
 					fontWeight="600"
-					pt="70px"
+					pt="30px"
 					pl="70px"
 				>
 					Track how far <br />
