@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Button, Spinner, Tag, useDisclosure } from "@chakra-ui/react";
+import {
+	Button,
+	Spinner,
+	Tag,
+	useDisclosure,
+	Box,
+	Hide,
+} from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 import Sidebar from "@/components/sidebar";
 import { RightPage } from "@/components/rightpage";
@@ -38,63 +45,74 @@ const Todos: React.FC = () => {
 	return (
 		<div className="h-full">
 			<Sidebar />
-			<div className="flex mt-[50px]">
-				<div className="px-[200px] mr-[220px] mt-3">
-					<p className="text-3xl font-extrabold">
-						{todos?.length} Todos
-					</p>
-				</div>
-				<Button
-					leftIcon={<CirclePlus />}
-					bgColor="#28BA63"
-					color="white"
-					p="30px"
-					fontWeight="light"
-					_hover={{
-						bgColor: "#219a52",
-					}}
-					onClick={onOpen}
-				>
-					Create Task
-				</Button>
-			</div>
-			<RightPage selectedTodo={selectedTodo} />
-			{currentTodos.map((todo: any) => (
-				<div
-					key={todo?.$id}
-					className="flex justify-between ml-[200px] mt-3 border w-[708px] p-4 bg-white"
-				>
-					<div
-						className="mr-[100px] cursor-pointer"
-						onClick={() => setSelectedTodo(todo)}
+			<Box className="md:ml-[200px]">
+				<div className="flex flex-col md:flex-row mt-[50px] px-4 md:px-0">
+					<div className="md:mr-[220px] mt-3">
+						<p className="text-3xl font-extrabold">
+							{todos?.length} Todos
+						</p>
+					</div>
+					<Button
+						leftIcon={<CirclePlus />}
+						bgColor="#28BA63"
+						color="white"
+						p="30px"
+						fontWeight="light"
+						_hover={{
+							bgColor: "#219a52",
+						}}
+						onClick={onOpen}
 					>
-						<div className="font-bold">
-							{truncateText(todo?.name || "", 3)}
-						</div>
-						<div>{formatDate(todo?.$createdAt)}</div>
-					</div>
-					<div className="mt-3">
-						<Tag
-							borderRadius="full"
-							colorScheme={getStatusColor(todo?.status)}
-						>
-							{todo?.status}
-						</Tag>
-					</div>
-
-					<TodoPopover />
+						Create Task
+					</Button>
 				</div>
-			))}
-			<div className="fixed bottom-[60px] left-[75px] right-[190px] flex justify-center">
-				<div className="w-[938px]">
+
+				<Hide below="lg">
+					<RightPage selectedTodo={selectedTodo} />
+				</Hide>
+
+				<div className="flex flex-col items-center md:items-start">
+					{currentTodos.map((todo: any) => (
+						<div
+							key={todo?.$id}
+							className="mt-3 border w-full md:w-[708px] p-4 bg-white mx-4 md:mx-0"
+						>
+							<div className="flex justify-between">
+								<div
+									className="mr-[100px] cursor-pointer"
+									onClick={() => setSelectedTodo(todo)}
+								>
+									<div className="font-bold">
+										{truncateText(todo?.name || "", 3)}
+									</div>
+									<div>{formatDate(todo?.$createdAt)}</div>
+								</div>
+								<div className="mt-3">
+									<Tag
+										borderRadius="full"
+										colorScheme={getStatusColor(
+											todo?.status
+										)}
+									>
+										{todo?.status}
+									</Tag>
+								</div>
+
+								<TodoPopover />
+							</div>
+						</div>
+					))}
+				</div>
+
+				<Box className="pb-[130px] px-4 md:px-0">
 					<Pagination
 						todosPerPage={todosPerPage}
 						totalTodos={todos.length}
 						currentPage={currentPage}
 						onPageChange={handlePageChange}
 					/>
-				</div>
-			</div>
+				</Box>
+			</Box>
 			<CreateTodoModal isOpen={isOpen} onClose={onClose} />
 		</div>
 	);

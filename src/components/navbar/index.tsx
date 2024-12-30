@@ -164,7 +164,7 @@ export default function Navbar() {
 								<PopoverTrigger>
 									<Avatar
 										src={`${user?.picture}`}
-										name={`${user?.name}`}
+										name={`${user?.email}`}
 										cursor="pointer"
 									>
 										<AvatarBadge
@@ -222,7 +222,6 @@ export default function Navbar() {
 										</HStack>
 									</Flex>
 								))}
-								<SearchBox className="w-[50px]" />
 							</VStack>
 						</DrawerBody>
 					</DrawerContent>
