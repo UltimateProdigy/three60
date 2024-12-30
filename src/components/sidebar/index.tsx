@@ -1,7 +1,5 @@
 import { useTodo } from "@/context/todoContext";
-import { databases } from "@/lib/appwrite";
-import { three60Env } from "@/utils/functions";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 interface Ilinks {
 	id: number;
@@ -66,28 +64,30 @@ export default function Sidebar() {
 	];
 
 	return (
-		<div className="border w-[70px] h-[470px] rounded-[40px] absolute left-[60px] top-[140px] flex flex-col items-center justify-center bg-white">
-			{links.map((link) => (
-				<div
-					onClick={() => setActiveLink(link.name)}
-					key={link.id}
-					className={`flex flex-col items-center cursor-pointer w-[70px] py-2 ${
-						activeLink === link.name
-							? "border-l-2 border-blue-500 bg-[#f5f5f5]"
-							: ""
-					}`}
-				>
-					<p className="text-xs">{link.name}</p>
+		<div className="fixed md:absolute md:left-[60px] md:top-[140px] bottom-0 left-0 right-0 md:w-[70px] h-[70px] md:h-[470px] sm:rounded-t-[40px] md:rounded-[40px] flex md:flex-col items-center justify-center bg-white border z-50">
+			<div className="flex md:flex-col items-center justify-between w-full px-4 md:px-0 overflow-x-auto md:overflow-x-visible">
+				{links.map((link) => (
 					<div
-						style={{ backgroundColor: link.bgColor }}
-						className="w-[25px] h-[25px] rounded-[25px] flex items-center justify-center mt-2"
+						onClick={() => setActiveLink(link.name)}
+						key={link.id}
+						className={`flex md:flex-col items-center cursor-pointer md:w-[70px] py-2 min-w-fit px-2 md:px-0 ${
+							activeLink === link.name
+								? "md:border-l-2 border-t-2 md:border-t-0 border-blue-500 bg-[#f5f5f5]"
+								: ""
+						}`}
 					>
-						<p style={{ color: link.color, fontSize: "12px" }}>
-							{link.number}
-						</p>
+						<p className="text-xs whitespace-nowrap">{link.name}</p>
+						<div
+							style={{ backgroundColor: link.bgColor }}
+							className="w-[25px] h-[25px] rounded-[25px] flex items-center justify-center md:mt-2 ml-2 md:ml-0"
+						>
+							<p style={{ color: link.color, fontSize: "12px" }}>
+								{link.number}
+							</p>
+						</div>
 					</div>
-				</div>
-			))}
+				))}
+			</div>
 		</div>
 	);
 }
